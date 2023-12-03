@@ -210,6 +210,9 @@ class WebexBot(WebexWebsocketClient):
         room_id = teams_message.roomId
         is_one_on_one_space = 'ONE_ON_ONE' in activity['target']['tags']
 
+        log.info(f"raw_message: {raw_message}")
+        log.info(f"teams_message: {teams_message}")
+
         # Find the command that was sent, if any
         command = None
         user_command = raw_message.lower()
