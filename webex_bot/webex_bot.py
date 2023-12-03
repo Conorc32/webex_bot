@@ -5,6 +5,7 @@ import os
 import backoff
 import coloredlogs
 import requests
+import spacy
 import webexteamssdk
 
 from webex_bot.commands.echo import EchoCommand
@@ -79,6 +80,7 @@ class WebexBot(WebexWebsocketClient):
         self.approval_parameters_check()
         self.bot_display_name = ""
         self.get_me_info()
+        self.nlp = spacy.load("en_core_web_sm")
 
     @backoff.on_exception(backoff.expo, requests.exceptions.ConnectionError)
     def get_me_info(self):
@@ -236,6 +238,21 @@ class WebexBot(WebexWebsocketClient):
                     break
 
         if not command:
+            max_similarity_score_found = 0
+            desired_command = None
+            # Process the sentences using spaCy
+            user_command_sentence = self.nlp(user_command)
+            for c in self.commands:
+                current = self.nlp(c.command_sentence)
+                current_similarity = current.similarity(user_command_sentence)
+                if current_similarity > max_similarity_score_found:
+                    desired_command = user_command_sentence
+
+            if desired_command:
+                log.info(f"Most likely to be desired command is: {desired_command}")
+                log.info("The code does not actually do anything else form here, "
+                         "it just checks if the input matches any command")
+
             log.warning(f"Did not find command for {user_command}. Default to help card.")
             command = self.help_command
         else:
