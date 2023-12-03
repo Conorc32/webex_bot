@@ -243,10 +243,11 @@ class WebexBot(WebexWebsocketClient):
             # Process the sentences using spaCy
             user_command_sentence = self.nlp(user_command)
             for c in self.commands:
-                current = self.nlp(c.command_sentence)
-                current_similarity = current.similarity(user_command_sentence)
-                if current_similarity > max_similarity_score_found:
-                    desired_command = user_command_sentence
+                if c.command_sentence:
+                    current = self.nlp(c.command_sentence)
+                    current_similarity = current.similarity(user_command_sentence)
+                    if current_similarity > max_similarity_score_found:
+                        desired_command = user_command_sentence
 
             if desired_command:
                 log.info(f"Most likely to be desired command is: {desired_command}")
