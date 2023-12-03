@@ -247,7 +247,7 @@ class WebexBot(WebexWebsocketClient):
                     current = self.nlp(c.command_sentence)
                     current_similarity = current.similarity(user_command_sentence)
                     if current_similarity > max_similarity_score_found:
-                        desired_command = user_command_sentence
+                        desired_command = current
 
             if desired_command:
                 log.info(f"Most likely to be desired command is: {desired_command}")
