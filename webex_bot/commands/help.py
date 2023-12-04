@@ -77,8 +77,11 @@ class HelpCommand(Command):
                 command.command_keyword is not None, command.command_keyword))
             for command in sorted_commands_list:
                 if command.help_message and command.command_keyword != HELP_COMMAND_KEYWORD:
+                    help_message = command.help_message
+                    if command.command_sentence:
+                        help_message = help_message + "(NLP enabled)"
                     action = Submit(
-                        title=f"{command.help_message}",
+                        title=f"{help_message}",
                         data={COMMAND_KEYWORD_KEY: command.command_keyword,
                               'thread_parent_id': thread_parent_id},
                     )
