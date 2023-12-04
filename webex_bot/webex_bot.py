@@ -81,7 +81,7 @@ class WebexBot(WebexWebsocketClient):
         self.approval_parameters_check()
         self.bot_display_name = ""
         self.get_me_info()
-        self.nlp = spacy.load("en_core_web_sm")
+        self.nlp = spacy.load("en_core_web_lg")
 
     @backoff.on_exception(backoff.expo, requests.exceptions.ConnectionError)
     def get_me_info(self):
