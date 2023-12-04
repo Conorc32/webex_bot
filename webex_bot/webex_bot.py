@@ -247,6 +247,7 @@ class WebexBot(WebexWebsocketClient):
                     current_similarity = current.similarity(user_command_sentence)
                     log.info(f"current command: {current}. Current similarity: {current_similarity}")
                     if current_similarity > max_similarity_score_found:
+                        max_similarity_score_found = current_similarity
                         command = c
             log.info("Code currently just picks the most command with the highest cosine similarity, "
                      "it should ask the user if the command is correct before proceeding")
