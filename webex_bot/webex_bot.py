@@ -265,7 +265,7 @@ class WebexBot(WebexWebsocketClient):
             help_command_copy.bot_help_subtitle = ("I didn't understand your input. Here are my available commands. "
                                                    "Click one to begin, or consider retyping your message to be "
                                                    "clearer.")
-            command = self.help_command
+            command = help_command_copy
 
         else:
             log.info(f"Found command: {command.command_keyword}")
