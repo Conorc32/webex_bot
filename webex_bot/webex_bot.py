@@ -239,25 +239,15 @@ class WebexBot(WebexWebsocketClient):
 
         if not command:
             max_similarity_score_found = 0
-            desired_command_sentence = None
-            desired_command = None
             # Process the sentences using spaCy
             user_command_sentence = self.nlp(user_command)
             for c in self.commands:
                 if c.command_sentence:
                     current = self.nlp(c.command_sentence)
                     current_similarity = current.similarity(user_command_sentence)
+                    log.info(f"current command: {current}. Current similarity: {current_similarity}")
                     if current_similarity > max_similarity_score_found:
                         command = c
-                        desired_command_sentence = current
-
-            if desired_command:
-                log.info(f"Most likely to be desired command is: {desired_command_sentence}")
-                log.info("The code does not actually do anything else form here, "
-                         "it just checks if the input matches any command")
-
-
-
 
         if not command:
             log.warning(f"Did not find command for {user_command}. Default to help card.")
