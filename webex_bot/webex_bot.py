@@ -243,13 +243,14 @@ class WebexBot(WebexWebsocketClient):
             # Process the sentences using spaCy
             user_command_sentence = self.nlp(user_command)
             for c in self.commands:
-                if c.command_sentence:
-                    current = self.nlp(c.command_sentence)
-                    current_similarity = current.similarity(user_command_sentence)
-                    log.info(f"current command: {current}. Current similarity: {current_similarity}")
-                    if current_similarity > max_similarity_score_found:
-                        max_similarity_score_found = current_similarity
-                        command = c
+                if c.command_sentences:
+                    for sentence in c.command_sentences:
+                        current = self.nlp(sentence)
+                        current_similarity = current.similarity(user_command_sentence)
+                        log.info(f"current command: {current}. Current similarity: {current_similarity}")
+                        if current_similarity > max_similarity_score_found:
+                            max_similarity_score_found = current_similarity
+                            command = c
 
             if max_similarity_score_found < 0.5:
                 log.warning(f"Cosine similarity was below 0.5, no suitable command found for {user_command}"
