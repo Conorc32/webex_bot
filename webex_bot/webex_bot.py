@@ -254,19 +254,19 @@ class WebexBot(WebexWebsocketClient):
             if max_similarity_score_found < 0.5:
                 log.warning(f"Cosine similarity was below 0.5, no suitable command found for {user_command}"
                             f"Default to help card.")
-                command = self.help_command
+                help_command_copy = copy.deepcopy(self.help_command)
+                help_command_copy.bot_help_subtitle = (
+                    "I didn't understand your input. Here are my available commands. "
+                    "Click one to begin, or consider retyping your message to be "
+                    "clearer.")
+                command = help_command_copy
 
             log.info("Code currently just picks the most command with the highest cosine similarity, "
                      "it should ask the user if the command is correct before proceeding")
 
         if not command:
             log.warning(f"Did not find command for {user_command}. Default to help card.")
-            help_command_copy = copy.deepcopy(self.help_command)
-            help_command_copy.bot_help_subtitle = ("I didn't understand your input. Here are my available commands. "
-                                                   "Click one to begin, or consider retyping your message to be "
-                                                   "clearer.")
-            command = help_command_copy
-
+            command = self.help_command
         else:
             log.info(f"Found command: {command.command_keyword}")
 
