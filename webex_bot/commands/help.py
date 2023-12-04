@@ -88,4 +88,6 @@ class HelpCommand(Command):
                                 value=command.help_message)
 
                     hint_texts.append(hint)
+
+        log.info(f"help_actions: {help_actions}\nhint_texts: {hint_texts}")
         return help_actions, hint_texts
