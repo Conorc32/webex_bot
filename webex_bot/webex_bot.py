@@ -249,6 +249,12 @@ class WebexBot(WebexWebsocketClient):
                     if current_similarity > max_similarity_score_found:
                         max_similarity_score_found = current_similarity
                         command = c
+
+            if max_similarity_score_found < 0.5:
+                log.warning(f"Cosine similarity was below 0.5, no suitable command found for {user_command}"
+                            f"Default to help card.")
+                command = self.help_command
+
             log.info("Code currently just picks the most command with the highest cosine similarity, "
                      "it should ask the user if the command is correct before proceeding")
 
