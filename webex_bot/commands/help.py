@@ -79,7 +79,7 @@ class HelpCommand(Command):
                 if command.help_message and command.command_keyword != HELP_COMMAND_KEYWORD:
                     help_message = command.help_message
                     if command.command_sentence:
-                        help_message = help_message + "(NLP enabled)"
+                        help_message = "(NLP enabled) " + help_message
                     action = Submit(
                         title=f"{help_message}",
                         data={COMMAND_KEYWORD_KEY: command.command_keyword,
