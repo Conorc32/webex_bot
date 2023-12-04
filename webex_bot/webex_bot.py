@@ -1,4 +1,5 @@
 """Main module."""
+import copy
 import logging
 import os
 
@@ -260,7 +261,12 @@ class WebexBot(WebexWebsocketClient):
 
         if not command:
             log.warning(f"Did not find command for {user_command}. Default to help card.")
+            help_command_copy = copy.deepcopy(self.help_command)
+            help_command_copy.bot_help_subtitle = ("I didn't understand your input. Here are my available commands. "
+                                                   "Click one to begin, or consider retyping your message to be "
+                                                   "clearer.")
             command = self.help_command
+
         else:
             log.info(f"Found command: {command.command_keyword}")
 
